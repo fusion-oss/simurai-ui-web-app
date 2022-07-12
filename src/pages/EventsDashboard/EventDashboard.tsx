@@ -1,17 +1,60 @@
+import { AxiosError } from "axios";
 import React, { useState } from "react"
 import { Dropdown } from "../../components/Dropdown"
-import { fetchEvents } from "../../services/EventDashboard";
+import { fetchEvents, triggerEvent } from "../../services/EventDashboard";
 import { _events } from "./data";
 import './eventdashboard.scss';
 
 export const EventDashboard: React.FC<any> = (): JSX.Element => {
-    const [events, setEvents] = useState(_events);
+    const [events, setEvents] = useState<any>();
     const [selectedEvent, setSelectedEvent] = useState<string>();
     const [editableHeaderFields, setEditableHeaderFields] = useState<any>();
     const [editablePayloadFields, setEditablePayloadFields] = useState<any>();
     const [headerTemplateJson, setHeaderTemplateJson] = useState<any>();
     const [payloadTemplateJson, setPayloadTemplateJson] = useState<any>();
-    const dropdownOptions = events?.map(i => i.alias);
+    const dropdownOptions = events?.map((i: any) => i.alias);
+
+    React.useEffect(() => {
+        fetchEvents().then((response: any) => {
+            setEvents(response);
+        }).catch((error: AxiosError) => console.error(error));
+    }, [])
+
+    React.useEffect(() => {
+        setEditableHeaderFields(new Map());
+        setEditablePayloadFields(new Map());
+        // console.log('----', typeof editableHeaderFields, typeof editablePayloadFields);
+
+        // editableHeaderFields.clear();
+        // editablePayloadFields.clear();
+        setHeaderTemplateJson({});
+        setPayloadTemplateJson({});
+
+        if (selectedEvent) {
+            console.log(editableHeaderFields, editablePayloadFields, headerTemplateJson, payloadTemplateJson);
+
+            let headerJson: any = events.filter((item: any) => item.alias === selectedEvent)[0]?.headerTemplate;
+            headerJson = headerJson?.replaceAll("\r\n", "");
+            headerJson = headerJson?.replaceAll("HEADER.", "");
+
+            // const headerJson: any = events.filter((item) => item.name === selectedEvent)[0]?.headerTemplate
+            if (headerJson) {
+                setEditableHeaderFields(createEditableFieldFromPlaceholders(headerJson));
+                setHeaderTemplateJson(JSON.parse(headerJson));
+            }
+
+            let payloadJson: any = events.filter((item: any) => item.alias === selectedEvent)[0]?.bodyTemplate;
+            payloadJson = payloadJson?.replaceAll("\r\n", "");
+            payloadJson = payloadJson?.replaceAll("BODY.", "");
+
+            // const payloadJson: any = events.filter((item) => item.name === selectedEvent)[0]?.bodyTemplate
+            if (payloadJson) {
+                setEditablePayloadFields(createEditableFieldFromPlaceholders(payloadJson));
+                setPayloadTemplateJson(JSON.parse(payloadJson));
+            }
+        }
+    }, [selectedEvent]);
+
 
     const onEventChange = (eventName: string) => {
         setSelectedEvent(eventName);
@@ -33,40 +76,6 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
         }
         return editableFields;
     }
-
-    React.useEffect(() => {
-        fetchEvents().then((response: any) => {
-            console.log(response);
-
-            setEvents(response);
-        });
-
-
-    }, [])
-
-    React.useEffect(() => {
-        if (selectedEvent) {
-            let headerJson: any = events.filter((item) => item.name === selectedEvent)[0]?.headerTemplate;
-            headerJson = headerJson?.replaceAll("\r\n", "");
-            headerJson = headerJson?.replaceAll("HEADER.", "");
-
-            // const headerJson: any = events.filter((item) => item.name === selectedEvent)[0]?.headerTemplate
-            if (headerJson) {
-                setEditableHeaderFields(createEditableFieldFromPlaceholders(headerJson));
-                setHeaderTemplateJson(JSON.parse(headerJson));
-            }
-
-            let payloadJson: any = events.filter((item) => item.name === selectedEvent)[0]?.bodyTemplate;
-            payloadJson = payloadJson?.replaceAll("\r\n", "");
-            payloadJson = payloadJson?.replaceAll("BODY.", "");
-
-            // const payloadJson: any = events.filter((item) => item.name === selectedEvent)[0]?.bodyTemplate
-            if (payloadJson) {
-                setEditablePayloadFields(createEditableFieldFromPlaceholders(payloadJson));
-                setPayloadTemplateJson(JSON.parse(payloadJson));
-            }
-        }
-    }, [selectedEvent]);
 
     const onPayloadFieldEdited = (field: any) => {
         editablePayloadFields?.set(field.id, field.value);
@@ -117,14 +126,15 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
     }
 
     const onSendClick = () => {
-        console.log(editableHeaderFields);
-        console.log(editablePayloadFields);
+        const payload: any = { alias: selectedEvent, HEADER: Object.fromEntries(editableHeaderFields), BODY: Object.fromEntries(editablePayloadFields) }
+        triggerEvent(payload);
     }
 
-    const disableSendButton =
-        // console.log(!(editableHeaderFields && editablePayloadFields && Object.values(Object.fromEntries(editableHeaderFields))?.some(element => element === undefined) && Object.values(Object.fromEntries(editablePayloadFields))?.some(element => element === undefined)));
-        //  setHeaderTemplateJson(headerTemplateJson)            
-        (editableHeaderFields && editablePayloadFields && Object.values(Object.fromEntries(editableHeaderFields))?.some(element => element === undefined) && Object.values(Object.fromEntries(editablePayloadFields))?.some(element => element === undefined));
+    // const disableSendButton =
+    //     // console.log(!(editableHeaderFields && editablePayloadFields && Object.values(Object.fromEntries(editableHeaderFields))?.some(element => element === undefined) && Object.values(Object.fromEntries(editablePayloadFields))?.some(element => element === undefined)));
+    //     //  setHeaderTemplateJson(headerTemplateJson)            
+    //     editableHeaderFields && editablePayloadFields && Object.values(Object.fromEntries(editableHeaderFields))?.some(element => element === undefined) &&
+    //     Object.values(Object.fromEntries(editablePayloadFields))?.some(element => element === undefined);
 
 
     return <div className="event-dashboard-container">
