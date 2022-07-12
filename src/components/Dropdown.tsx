@@ -8,13 +8,14 @@ export const Dropdown = (props: any) => {
     };
 
     const DropdownOptions = () => {
-        return options.map((option: string, index: number) => {
+        return options?.map((option: string, index: number) => {
             return <option className='dropdown-options' key={index} value={option}>{option}</option>
         })
     }
 
     return (
         <select name="dropdown" className='dropdown' value={value} onChange={onOptionChange}>
+            <option className='dropdown-options' value="none" selected disabled hidden>Select an Event</option>
             <DropdownOptions />
         </select>
     );
