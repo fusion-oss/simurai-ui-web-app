@@ -1,0 +1,6 @@
+window.env = {
+	"BACKEND_URL" : "${BACKEND_URL}",
+	"AD_SUBSCRIPTION_KEY" : "${AD_SUBSCRIPTION_KEY}",
+	"LOGIN_URL" : "${LOGIN_URL}",
+	"LOGOUT_URL" : "${LOGOUT_URL}"
+}
