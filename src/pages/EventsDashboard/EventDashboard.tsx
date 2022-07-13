@@ -6,33 +6,46 @@ import { _events } from "./data";
 import './eventdashboard.scss';
 
 export const EventDashboard: React.FC<any> = (): JSX.Element => {
-    const [events, setEvents] = useState<any>();
-    const [selectedEvent, setSelectedEvent] = useState<string>();
+    const [events, setEvents] = useState<any>(_events);
+    const [category, setCategory] = useState<any>();
+    const [selectedCategory, setSelectedCategory] = useState<any>();
+    const [dropdownEventsOptions, setDropdownEventsOptions] = useState<any>([]);
+    const [dropdownCategoryOptions, setDropdownCategoryOptions] = useState<any>([]);
+    const [selectedEvent, setSelectedEvent] = useState<any>();
     const [editableHeaderFields, setEditableHeaderFields] = useState<any>();
     const [editablePayloadFields, setEditablePayloadFields] = useState<any>();
     const [headerTemplateJson, setHeaderTemplateJson] = useState<any>();
     const [payloadTemplateJson, setPayloadTemplateJson] = useState<any>();
-    const dropdownOptions = events?.map((i: any) => i.alias);
+    const [obj, setObj] = useState<any>();
+
+    // let dropdownCategoryOptions = events?.map((i: any) => i.category);
 
     React.useEffect(() => {
         fetchEvents().then((response: any) => {
-            setEvents(response);
+            // setEvents(response);
+            setCategory(response?.map((item: any) => item.category));
+            // setEvents(response);
         }).catch((error: AxiosError) => console.error(error));
     }, [])
 
     React.useEffect(() => {
-        setEditableHeaderFields(new Map());
-        setEditablePayloadFields(new Map());
-        // console.log('----', typeof editableHeaderFields, typeof editablePayloadFields);
+        setDropdownEventsOptions([]);
+        setSelectedEvent(null);
+        let groupEvents: any = events?.filter((item: any) => {
+            if (item.category === selectedCategory) {
+                return item.alias
+            }
+        })
 
-        // editableHeaderFields.clear();
-        // editablePayloadFields.clear();
-        setHeaderTemplateJson({});
-        setPayloadTemplateJson({});
+        setDropdownEventsOptions(groupEvents?.map((item: any) => item.alias) ?? [])
 
+        setDropdownCategoryOptions(events?.map((i: any) => i.category))
+
+
+    }, [selectedCategory])
+
+    React.useEffect(() => {
         if (selectedEvent) {
-            console.log(editableHeaderFields, editablePayloadFields, headerTemplateJson, payloadTemplateJson);
-
             let headerJson: any = events.filter((item: any) => item.alias === selectedEvent)[0]?.headerTemplate;
             headerJson = headerJson?.replaceAll("\r\n", "");
             headerJson = headerJson?.replaceAll("HEADER.", "");
@@ -52,12 +65,39 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
                 setEditablePayloadFields(createEditableFieldFromPlaceholders(payloadJson));
                 setPayloadTemplateJson(JSON.parse(payloadJson));
             }
+
+            //new
+            const { name, alias, format, category, headerTemplate, bodyTemplate } = events.filter((item: any) => item.alias === selectedEvent)[0];
+            let h: any = JSON.parse(payloadJson)
+
+            // for (let i = 0; i < Object.keys(h)?.length; i++) {
+            //     const { key, value } = h;
+            //     console.log(h, key, value);
+            //     h = { value: undefined };
+            // }
+            let x: any = [];
+            for (var key in h) {
+                let c: any = {};
+                if (h.hasOwnProperty(key)) {
+                    c.key = key;
+                    c.placeholder = h[key].substring(h[key].indexOf("${") + 2, h[key].indexOf("}"));
+                    c.value = undefined;
+                    x.push(c);
+                }
+            }
+
+            let a: any = Object.assign({}, { name, alias, format, category, headerTemplate: JSON.parse(headerTemplate), bodyTemplate: JSON.parse(bodyTemplate), editedHeader: {}, editedPayload: x })
+            setObj(a);
         }
     }, [selectedEvent]);
 
 
     const onEventChange = (eventName: string) => {
         setSelectedEvent(eventName);
+    }
+
+    const onCategoryChange = (categoryName: string) => {
+        setSelectedCategory(categoryName);
     }
 
     const createEditableFieldFromPlaceholders = (template: string) => {
@@ -79,6 +119,35 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
 
     const onPayloadFieldEdited = (field: any) => {
         editablePayloadFields?.set(field.id, field.value);
+        updateJsonValue(editablePayloadFields, payloadTemplateJson, field.id);
+
+        //new 
+        const index = obj?.editedPayload?.findIndex((item: any) => item.placeholder === field.id);
+        obj.editedPayload[index].value = field.value;
+        console.log(obj);
+
+        setObj({ ...obj });
+
+    }
+
+
+    const getKeyByValue = (object: any, value: any) => {
+        return Object.keys(object).find(key => object[key] === value);
+    }
+
+    const updateJsonValue = (editableFields: any, payloadJson: any, key: string) => {
+        // console.log(key, getKeyByValue(payloadJson[key], key));
+
+        payloadJson[key] = editableFields.get(key);
+        setPayloadTemplateJson(payloadTemplateJson)
+
+        //new
+        const a: any = Object.assign({}, obj);
+        // a?.edited
+
+
+
+
     }
 
     const onHeaderFieldEdited = (field: any) => {
@@ -130,29 +199,37 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
         triggerEvent(payload);
     }
 
-    // const disableSendButton =
-    //     // console.log(!(editableHeaderFields && editablePayloadFields && Object.values(Object.fromEntries(editableHeaderFields))?.some(element => element === undefined) && Object.values(Object.fromEntries(editablePayloadFields))?.some(element => element === undefined)));
-    //     //  setHeaderTemplateJson(headerTemplateJson)            
-    //     editableHeaderFields && editablePayloadFields && Object.values(Object.fromEntries(editableHeaderFields))?.some(element => element === undefined) &&
-    //     Object.values(Object.fromEntries(editablePayloadFields))?.some(element => element === undefined);
-
+    const disableSendButton =
+        // console.log(!(editableHeaderFields && editablePayloadFields && Object.values(Object.fromEntries(editableHeaderFields))?.some(element => element === undefined) && Object.values(Object.fromEntries(editablePayloadFields))?.some(element => element === undefined)));
+        //  setHeaderTemplateJson(headerTemplateJson)            
+        editableHeaderFields && editablePayloadFields && Object.values(Object.fromEntries(editableHeaderFields))?.some(element => element === undefined) &&
+        Object.values(Object.fromEntries(editablePayloadFields))?.some(element => element === undefined);
 
     return <div className="event-dashboard-container">
+        <div className="heading">Events</div>
         <div className="event-dropdown">
-            <Dropdown value={selectedEvent} options={dropdownOptions} onChange={onEventChange} />
+            <Dropdown value={selectedCategory} options={dropdownCategoryOptions} onChange={onCategoryChange} defaultOption="Select event category" />
+            <Dropdown id={selectedCategory} value={selectedEvent} options={dropdownEventsOptions} onChange={onEventChange} defaultOption="Select event" />
         </div>
-        <div className="json-editor">
-            <textarea className="json-viewer" id="w3review" name="w3review" value={JSON.stringify(headerTemplateJson)} readOnly></textarea>
-            <div className="fields-container">
-                {RenderEditableHeaderPlaceHolderFields(editableHeaderFields)}
+        {headerTemplateJson && <> <div className="heading">Header</div>
+            <div className="json-editor">
+                <textarea className="json-viewer" id="headers" name="headers" value={JSON.stringify(headerTemplateJson)} readOnly></textarea>
+                <div className="fields-container">
+                    {RenderEditableHeaderPlaceHolderFields(editableHeaderFields)}
+                </div>
             </div>
-        </div>
-        <div className="json-editor">
-            <textarea className="json-viewer" id="w3review" name="w3review" value={JSON.stringify(payloadTemplateJson)} readOnly></textarea>
-            <div className="fields-container">
-                {RenderEditablePayloadPlaceHolderFields(editablePayloadFields)}
+        </>}
+        {payloadTemplateJson && <><div className="heading">Payload</div>
+            <div className="json-editor">
+                <textarea className="json-viewer" id="payload" name="payload" value={JSON.stringify(payloadTemplateJson)} readOnly></textarea>
+                <div className="fields-container">
+                    {RenderEditablePayloadPlaceHolderFields(editablePayloadFields)}
+                </div>
             </div>
+        </>}
+        <div className="btn-container">
+            <button className="btn btn-secondary" onClick={onSendClick}>Reset</button>
+            <button className="btn btn-primary" onClick={onSendClick}>Send</button>
         </div>
-        <button className="btn-primary" onClick={onSendClick}>Send</button>
     </div>
 }

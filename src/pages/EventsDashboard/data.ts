@@ -11,7 +11,7 @@ export const _events = [
         "name": "DOOR_MOTION",
         "alias": "DOOR_MOTION_V1",
         "format": "XML",
-        "category": "cat1",
+        "category": "cat2",
         "headerTemplate": "{\"Key1\":\"${HEADER.Key1}\",\"Key2\":\"${HEADER.Key2}\"}",
         "bodyTemplate": "{\"dispenseTerminalId\":\"${BODY.terminalId}\",\"doorId\":\"${BODY.doorId}\",\"motion\":\"${BODY.motion}\"}"
     }

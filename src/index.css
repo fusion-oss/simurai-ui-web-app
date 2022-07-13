@@ -5,6 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+    background-color: rgb(245, 245, 245);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 100%;  
+    font-family: 'Roboto', sans-serif;
 }
 
 code {
