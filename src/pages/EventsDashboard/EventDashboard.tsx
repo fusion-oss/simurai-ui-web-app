@@ -6,7 +6,7 @@ import { _events } from "./data";
 import './eventdashboard.scss';
 
 export const EventDashboard: React.FC<any> = (): JSX.Element => {
-    const [events, setEvents] = useState<any>(_events);
+    const [events, setEvents] = useState<any>();
     const [category, setCategory] = useState<any>();
     const [selectedCategory, setSelectedCategory] = useState<any>();
     const [dropdownEventsOptions, setDropdownEventsOptions] = useState<any>([]);
@@ -26,6 +26,7 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
 
     React.useEffect(() => {
         fetchEvents().then((response: any) => {
+            
             const _eventDataByCategory: any = {};
             for (let i = 0; i < response?.length; i++) {
                 if (response[i].category in _eventDataByCategory)
@@ -36,6 +37,7 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
                 }
             }
             setEventDataByCategory(_eventDataByCategory);
+            setEvents(response);
         }).catch((error: AxiosError) => console.error(error));
     }, [])
 
