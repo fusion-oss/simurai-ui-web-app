@@ -1,7 +1,7 @@
 import React from 'react';
 import './dropdown.scss';
 export const Dropdown = (props: any) => {
-    const { options, onChange, value, defaultOption } = props;
+    const { id, options, onChange, value, defaultOption } = props;
 
     const onOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         onChange(event.target.value);
@@ -14,7 +14,7 @@ export const Dropdown = (props: any) => {
     }
 
     return (
-        <select name="dropdown" className='dropdown' value={value} onChange={onOptionChange}>
+        <select id={id} name="dropdown" className='dropdown' value={value} onChange={onOptionChange}>
             <option className='dropdown-options' value="none" selected disabled hidden>{defaultOption}</option>
             <DropdownOptions />
         </select>

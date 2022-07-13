@@ -18,30 +18,29 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
     const [payloadTemplateJson, setPayloadTemplateJson] = useState<any>();
     const [obj, setObj] = useState<any>();
 
-    // let dropdownCategoryOptions = events?.map((i: any) => i.category);
+
+    // new 
+    const [eventDataByCategory, setEventDataByCategory] = useState<any>();
+    const [categoryOptions, setCategoryOptions] = useState<any>([]);
+
 
     React.useEffect(() => {
         fetchEvents().then((response: any) => {
-            // setEvents(response);
-            setCategory(response?.map((item: any) => item.category));
-            // setEvents(response);
+            const _eventDataByCategory: any = {};
+            for (let i = 0; i < response?.length; i++) {
+                if (response[i].category in _eventDataByCategory)
+                    _eventDataByCategory[response[i].category]?.events?.push(response[i].alias);
+                else {
+                    _eventDataByCategory[response[i].category] = { events: [] }
+                    _eventDataByCategory[response[i].category]?.events?.push(response[i].alias);
+                }
+            }
+            setEventDataByCategory(_eventDataByCategory);
         }).catch((error: AxiosError) => console.error(error));
     }, [])
 
     React.useEffect(() => {
-        setDropdownEventsOptions([]);
-        setSelectedEvent(null);
-        let groupEvents: any = events?.filter((item: any) => {
-            if (item.category === selectedCategory) {
-                return item.alias
-            }
-        })
-
-        setDropdownEventsOptions(groupEvents?.map((item: any) => item.alias) ?? [])
-
-        setDropdownCategoryOptions(events?.map((i: any) => i.category))
-
-
+        setCategoryOptions(eventDataByCategory && (selectedCategory in eventDataByCategory) ? eventDataByCategory[selectedCategory]?.events : []);
     }, [selectedCategory])
 
     React.useEffect(() => {
@@ -68,15 +67,9 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
 
             //new
             const { name, alias, format, category, headerTemplate, bodyTemplate } = events.filter((item: any) => item.alias === selectedEvent)[0];
-            let h: any = JSON.parse(payloadJson)
-
-            // for (let i = 0; i < Object.keys(h)?.length; i++) {
-            //     const { key, value } = h;
-            //     console.log(h, key, value);
-            //     h = { value: undefined };
-            // }
+            let h: any = JSON.parse(JSON.stringify(payloadJson))
             let x: any = [];
-            for (var key in h) {
+            for (let key in h) {
                 let c: any = {};
                 if (h.hasOwnProperty(key)) {
                     c.key = key;
@@ -98,6 +91,7 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
 
     const onCategoryChange = (categoryName: string) => {
         setSelectedCategory(categoryName);
+        setSelectedEvent(null)
     }
 
     const createEditableFieldFromPlaceholders = (template: string) => {
@@ -124,10 +118,7 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
         //new 
         const index = obj?.editedPayload?.findIndex((item: any) => item.placeholder === field.id);
         obj.editedPayload[index].value = field.value;
-        console.log(obj);
-
         setObj({ ...obj });
-
     }
 
 
@@ -137,17 +128,11 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
 
     const updateJsonValue = (editableFields: any, payloadJson: any, key: string) => {
         // console.log(key, getKeyByValue(payloadJson[key], key));
-
         payloadJson[key] = editableFields.get(key);
         setPayloadTemplateJson(payloadTemplateJson)
 
         //new
         const a: any = Object.assign({}, obj);
-        // a?.edited
-
-
-
-
     }
 
     const onHeaderFieldEdited = (field: any) => {
@@ -199,17 +184,17 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
         triggerEvent(payload);
     }
 
-    const disableSendButton =
-        // console.log(!(editableHeaderFields && editablePayloadFields && Object.values(Object.fromEntries(editableHeaderFields))?.some(element => element === undefined) && Object.values(Object.fromEntries(editablePayloadFields))?.some(element => element === undefined)));
-        //  setHeaderTemplateJson(headerTemplateJson)            
-        editableHeaderFields && editablePayloadFields && Object.values(Object.fromEntries(editableHeaderFields))?.some(element => element === undefined) &&
+
+
+    const disableSendButton = editableHeaderFields && editablePayloadFields && Object.values(Object.fromEntries(editableHeaderFields))?.some(element => element === undefined) &&
         Object.values(Object.fromEntries(editablePayloadFields))?.some(element => element === undefined);
 
     return <div className="event-dashboard-container">
         <div className="heading">Events</div>
         <div className="event-dropdown">
-            <Dropdown value={selectedCategory} options={dropdownCategoryOptions} onChange={onCategoryChange} defaultOption="Select event category" />
-            <Dropdown id={selectedCategory} value={selectedEvent} options={dropdownEventsOptions} onChange={onEventChange} defaultOption="Select event" />
+
+            <Dropdown id="category" value={selectedCategory} options={(eventDataByCategory && Object.keys(eventDataByCategory)) ?? []} onChange={onCategoryChange} defaultOption="Select event category" />
+            <Dropdown id={selectedCategory} value={selectedEvent} options={categoryOptions} onChange={onEventChange} defaultOption="Select event" />
         </div>
         {headerTemplateJson && <> <div className="heading">Header</div>
             <div className="json-editor">
@@ -228,7 +213,6 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
             </div>
         </>}
         <div className="btn-container">
-            <button className="btn btn-secondary" onClick={onSendClick}>Reset</button>
             <button className="btn btn-primary" onClick={onSendClick}>Send</button>
         </div>
     </div>
