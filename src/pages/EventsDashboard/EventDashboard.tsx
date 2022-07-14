@@ -26,7 +26,6 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
 
     React.useEffect(() => {
         fetchEvents().then((response: any) => {
-            
             const _eventDataByCategory: any = {};
             for (let i = 0; i < response?.length; i++) {
                 if (response[i].category in _eventDataByCategory)
@@ -81,7 +80,7 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
                 }
             }
 
-            let a: any = Object.assign({}, { name, alias, format, category, headerTemplate: JSON.parse(headerTemplate), bodyTemplate: JSON.parse(bodyTemplate), editedHeader: {}, editedPayload: x })
+            let a: any = JSON.parse(JSON.stringify(Object.assign({}, { name, alias, format, category, headerTemplate: JSON.parse(headerTemplate), bodyTemplate: JSON.parse(bodyTemplate), editedHeader: {}, editedPayload: x })))
             setObj(a);
         }
     }, [selectedEvent]);
@@ -93,7 +92,7 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
 
     const onCategoryChange = (categoryName: string) => {
         setSelectedCategory(categoryName);
-        setSelectedEvent(null)
+        setSelectedEvent(null);
     }
 
     const createEditableFieldFromPlaceholders = (template: string) => {
@@ -115,12 +114,15 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
 
     const onPayloadFieldEdited = (field: any) => {
         editablePayloadFields?.set(field.id, field.value);
+        // setEditablePayloadFields({ ...editablePayloadFields })
         updateJsonValue(editablePayloadFields, payloadTemplateJson, field.id);
 
         //new 
-        const index = obj?.editedPayload?.findIndex((item: any) => item.placeholder === field.id);
-        obj.editedPayload[index].value = field.value;
-        setObj({ ...obj });
+        // const index = obj?.editedPayload?.findIndex((item: any) => item.placeholder === field.id);
+        // if (index !== -1) {
+        //     obj.editedPayload[index].value = field.value;
+        //     setObj({ ...obj });
+        // }
     }
 
 
@@ -141,44 +143,36 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
         editableHeaderFields?.set(field.id, field.value);
     }
 
-    const RenderEditablePayloadPlaceHolderFields = (_editableTemplateFields: any) => {
-        if (_editableTemplateFields?.size) {
-            return Array.from(_editableTemplateFields.entries())?.map((item: any) => {
-                const [key, value] = item;
-                return <div className="input-container">
-                    <input className="input" value={value}
-                        id={key}
-                        name={key}
-                        placeholder={key}
-                        onChange={e => onPayloadFieldEdited(e.target)}
-                        required />
-                    <button className="btn-cross" id={key} onClick={(e: any) => {
-                        _editableTemplateFields?.set(e.target?.id, undefined);
-                    }}>x</button>
-                </div>
-            })
-        }
-        return null;
+    const RenderEditablePayloadPlaceHolderFields: React.FC<any> = (): any => {
+        return editablePayloadFields?.size && Array.from(editablePayloadFields?.entries())?.map((item: any) => {
+            const [key, value] = item;
+            return <div className="input-container">
+                <input className="input" value={value}
+                    id={key}
+                    name={key}
+                    placeholder={key}
+                    onChange={e => onPayloadFieldEdited(e.target)}
+                    required
+                    autoComplete="off" />
+
+            </div>;
+        })
     }
 
-    const RenderEditableHeaderPlaceHolderFields = (_editableTemplateFields: any) => {
-        if (_editableTemplateFields?.size) {
-            return Array.from(_editableTemplateFields.entries())?.map((item: any) => {
-                const [key, value] = item;
-                return <div className="input-container">
-                    <input className="input" value={value}
-                        id={key}
-                        name={key}
-                        placeholder={key}
-                        onChange={e => onHeaderFieldEdited(e.target)}
-                        required />
-                    <button className="btn-cross" id={key} onClick={(e: any) => {
-                        _editableTemplateFields?.set(e.target?.id, undefined);
-                    }}>x</button>
-                </div>
-            })
-        }
-        return null;
+    const RenderEditableHeaderPlaceHolderFields: React.FC<any> = (): any => {
+        return editableHeaderFields?.size && Array.from(editableHeaderFields?.entries())?.map((item: any) => {
+            const [key, value] = item;
+            return <div className="input-container">
+                <input className="input" value={value}
+                    id={key}
+                    name={key}
+                    placeholder={key}
+                    onChange={e => onHeaderFieldEdited(e.target)}
+                    required
+                    autoComplete="off" />
+
+            </div>
+        })
     }
 
     const onSendClick = () => {
@@ -188,13 +182,12 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
 
 
 
-    const disableSendButton = editableHeaderFields && editablePayloadFields && Object.values(Object.fromEntries(editableHeaderFields))?.some(element => element === undefined) &&
-        Object.values(Object.fromEntries(editablePayloadFields))?.some(element => element === undefined);
+    // const disableSendButton = editableHeaderFields && editablePayloadFields && Object.values(Object.fromEntries(editableHeaderFields))?.some(element => element === undefined) &&
+    //     Object.values(Object.fromEntries(editablePayloadFields))?.some(element => element === undefined);
 
     return <div className="event-dashboard-container">
         <div className="heading">Events</div>
         <div className="event-dropdown">
-
             <Dropdown id="category" value={selectedCategory} options={(eventDataByCategory && Object.keys(eventDataByCategory)) ?? []} onChange={onCategoryChange} defaultOption="Select event category" />
             <Dropdown id={selectedCategory} value={selectedEvent} options={categoryOptions} onChange={onEventChange} defaultOption="Select event" />
         </div>
@@ -202,7 +195,7 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
             <div className="json-editor">
                 <textarea className="json-viewer" id="headers" name="headers" value={JSON.stringify(headerTemplateJson)} readOnly></textarea>
                 <div className="fields-container">
-                    {RenderEditableHeaderPlaceHolderFields(editableHeaderFields)}
+                    <RenderEditableHeaderPlaceHolderFields />
                 </div>
             </div>
         </>}
@@ -210,7 +203,8 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
             <div className="json-editor">
                 <textarea className="json-viewer" id="payload" name="payload" value={JSON.stringify(payloadTemplateJson)} readOnly></textarea>
                 <div className="fields-container">
-                    {RenderEditablePayloadPlaceHolderFields(editablePayloadFields)}
+                    {/* {RenderEditablePayloadPlaceHolderFields(editablePayloadFields)} */}
+                    <RenderEditablePayloadPlaceHolderFields />
                 </div>
             </div>
         </>}
