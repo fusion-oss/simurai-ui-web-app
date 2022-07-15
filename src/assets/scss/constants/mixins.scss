@@ -1,0 +1,5 @@
+@mixin alignElement($display, $justifyContent, $alignItems) {
+    display: $display;
+    justify-content: $justifyContent;
+    align-items: $alignItems;
+}

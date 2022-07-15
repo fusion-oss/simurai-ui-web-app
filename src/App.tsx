@@ -1,10 +1,13 @@
-import './App.css';
+import './App.scss';
+import { LayoutContainer } from './pages/Layoutcontainer';
 import { AppRoute } from './routes/AppRoute';
 
 function App() {
   return (
     <div className="App">
-      <AppRoute />
+      <LayoutContainer>
+        <AppRoute />
+      </LayoutContainer>
     </div>
   );
 }
