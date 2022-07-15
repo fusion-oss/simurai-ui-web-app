@@ -155,7 +155,7 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
             </div>
         </div>
         <button className="btn-primary" onClick={onSendClick}>Send</button>
-        <Button id ="ggg" label="bbbb" variant="primary"/>
+        <Button id ="ggg" label="bbbb" variant="primary" onClick={() => console.log('click')}/>
     </div>
 
 
