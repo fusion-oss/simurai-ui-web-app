@@ -2,8 +2,10 @@
     padding: 5%;
 
     .event-dropdown {
-        display: flex;
-        margin-bottom: 5%;
+        display: grid;
+        grid-template-columns: 40% 60%;
+        column-gap: 1rem;
+        margin-bottom: 2.5%;
     }
 
     .json-editor {

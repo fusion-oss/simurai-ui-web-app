@@ -1,0 +1,66 @@
+@import "../../assets//scss/constants/colors.scss";
+@import "../../assets//scss/constants/mixins.scss";
+.dropdown {
+    @include alignElement(flex, space-between, center);
+    position: relative;
+    background-color: white;
+    border-radius: 15px;
+    width: 100%;
+    line-height: 1.5;
+    height: 33px;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 1.5%;
+
+    &-text {
+        padding-left: 3%;
+        text-align: left;
+        font-weight: 500;
+        font-size: 16px;
+    }
+    &-icon {
+        margin-right: 1.5%;
+        font-size: 15px;
+        color: $componentBlack;
+    }
+
+    &-options {
+        width: 100%;
+        position: absolute;
+        top: 40px;
+        left: 0px;
+        border-radius: 10px;
+
+        &-element {
+            @include alignElement(flex, left, center);
+            height: 33px;
+            background-color: white;
+            width: 100%;
+            line-height: 1.5;
+            height: 33px;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 1.5% 4.6%;
+            text-align: left;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        &-element:first-child {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        &-element:last-child {
+            border-bottom-right-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+    }
+    :hover {
+        cursor: pointer;
+    }
+}
+.disabled {
+    background-color: $whisper;
+    border-color: $moonMist;
+    color: $grey;
+}
