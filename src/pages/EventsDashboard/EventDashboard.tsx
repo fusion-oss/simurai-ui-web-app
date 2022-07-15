@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 import React, { useState } from "react"
+import Button from "../../components/Button/Button";
 import { Dropdown } from "../../components/Dropdown"
 import { fetchEvents, triggerEvent } from "../../services/EventDashboard";
 import { _events } from "./data";
@@ -154,5 +155,8 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
             </div>
         </div>
         <button className="btn-primary" onClick={onSendClick}>Send</button>
+        <Button id ="ggg" label="bbbb" variant="primary"/>
     </div>
+
+
 }
