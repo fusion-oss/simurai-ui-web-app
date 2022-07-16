@@ -1,0 +1,11 @@
+@import "../../../assets/scss/constants/mixins.scss";
+@import "../../../assets/scss/constants/mixins.scss";
+
+.panel-container {
+    width: 100%;
+    height: 40%;    
+
+    .panel-components {
+        display: flex;
+    }
+}

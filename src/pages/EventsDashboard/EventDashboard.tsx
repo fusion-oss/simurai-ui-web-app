@@ -1,9 +1,11 @@
 import { AxiosError } from "axios";
 import React, { useState, useEffect } from "react"
 import { fetchEvents, triggerEvent } from "../../services/EventDashboard";
+import { Tab } from "../TabConfig";
 import { _events } from "./data";
 import './eventdashboard.scss';
 import { EventFilter } from "./EventFIlter";
+import { TabNavigation } from "./TabNavigation/TabNavigation";
 
 export const EventDashboard: React.FC<any> = (): JSX.Element => {
     const [eventData, setEventData] = useState<any>();
@@ -44,5 +46,8 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
             categories={categories}
             selectedCategory={selectedEventCategory}
             selectedEvent={selectedEvent} />
+
+        <TabNavigation tabMenus={[Tab.Message, Tab.Details]} />
+
     </div>
 }
