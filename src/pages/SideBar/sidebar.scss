@@ -1,0 +1,132 @@
+.navigation {
+  position: relative;
+  width: 65px;
+  height: 100vh;
+  background: #fff;
+  border-radius: 25px 0px 0px 25px;
+  &.open {
+    width: 213px !important;
+    .side-nav {
+      .logo {
+        .bg {
+          display: block;
+          width: 213px;
+        }
+        .sm {
+          display: none;
+        }
+      }
+      .toggleIcon {
+        .fa-caret-left {
+          display: block;
+        }
+        .fa-caret-right {
+          display: none;
+        }
+      }
+    }
+    .nav-link {
+      li {
+        a {
+          .item {
+            font-size: 24px;
+            font-family: "Roboto";
+            font-style: normal;
+            line-height: 48px;
+            display: block;
+            padding-left: 5px;
+          }
+        }
+      }
+    }
+  }
+  .side-nav {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    .logo {
+      .bg {
+        display: none;
+      }
+      .sm {
+        display: block;
+        width: 65px;
+      }
+    }
+    .toggleIcon {
+      height: 58px;
+      background: #0a36ff;
+      border-radius: 0px 10px 10px 0px;
+      display: flex;
+      align-items: center;
+      padding: 0px 4px;
+      margin-right: -18px;
+      color: #fff;
+      cursor: pointer;
+      .fa-caret-left {
+        display: none;
+      }
+      .fa-caret-right {
+        display: block;
+      }
+    }
+  }
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    position: relative;
+    padding-left: 10px;
+    padding-top: 10px;
+    li.active > a {
+      font-weight: 700;
+      color: #1f70fb;
+      &::after {
+        border-right: 3px solid #1f70fb;
+        content: "";
+        height: 70%;
+        width: 1px;
+        position: absolute;
+        right: 0;
+        top: 8px;
+      }
+    }
+  }
+  li {
+    list-style: none;
+    position: relative;
+    padding: 0px;
+    width: 100%;
+    height: 45px;
+    justify-content: flex-start;
+    text-align: center;
+    a {
+      position: relative;
+      display: flex;
+      text-align: center;
+      align-items: center;
+      justify-content: flex-start;
+      text-decoration: none;
+      color: #393939;
+      font-style: normal;
+      font-weight: 400;
+      .icon {
+        position: relative;
+        display: block;
+        font-size: 20px;
+        height: 45px;
+        min-width: 45px;
+        line-height: 45px;
+        transition: 0.5s;
+      }
+      .item {
+        display: none;
+      }
+    }
+  }
+}

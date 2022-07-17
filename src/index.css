@@ -3,7 +3,8 @@ body {
   font-family: "Roboto";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
+  background-color: #dce0e8;
+  padding: 25px;
 }
 
 *,
