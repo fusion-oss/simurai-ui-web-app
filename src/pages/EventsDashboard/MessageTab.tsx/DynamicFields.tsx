@@ -1,25 +1,20 @@
-import { useEffect } from "react";
 import { Input } from "../../../components/Input/Input";
 import { inputType } from "../../../components/Interfaces";
 import './editor.scss';
 
 export const DynamicFields: React.FC<any> = (props: any) => {
     const { placeholderMap, onFieldChange } = props;
-    console.log(placeholderMap);
-
-    useEffect(() => {
-        console.log(placeholderMap);
-
-    }, [placeholderMap])
-
+    const getPlaceHolder = (trimText: string, key: string) => {
+        return key?.replaceAll(trimText, '')
+    }
     return <div className="input-container">
         {placeholderMap?.size && Array.from(placeholderMap?.entries())?.map((item: any) => {
-            const [index, key] = item;
+            const [key, value] = item;
             return <Input customClass="input"
-                value={key}
+                value={value}
                 id={key}
                 name={key}
-                placeholder={key}
+                placeholder={getPlaceHolder("BODY.",key)}
                 onChange={onFieldChange}
                 type={inputType.text}
                 autoComplete="off" />

@@ -5,10 +5,8 @@ import './editor.scss';
 
 export const PayloadEditor: React.FC<any> = (props: any) => {
     const { payload, format } = props;
-    // const [editedPayload, setEditedPayload] = useState<any>(payload);
     const [dynamicFieldsData, setDynamicFieldsData] = useState<any>(new Map());
     const [editedPayload, setEditedPayload] = useState<any>(payload);
-    console.log(payload);
 
     const findIndexes = (payload: any) => {
         let flag = 0, startIndex = 0;
@@ -22,7 +20,7 @@ export const PayloadEditor: React.FC<any> = (props: any) => {
             } else {
                 if (payload[i] === "}") {
                     flag = 0;
-                    placeholderMap.set(startIndex, payload.substring(startIndex, i));
+                    placeholderMap.set(payload.substring(startIndex, i), null);
                     startIndex = 0;
                 }
             }
@@ -35,16 +33,20 @@ export const PayloadEditor: React.FC<any> = (props: any) => {
         setEditedPayload(payload);
     }, [payload]);
 
+    useEffect(() => {
+        setDynamicFieldsData(findIndexes(editedPayload));
+    }, [editedPayload])
+
     const onFieldEdited = (event: any) => {
-        // console.log(event.target.id, event.target.value);
-        // dynamicFieldsData.set(event.target.id, event.target.value);
-        // setDynamicFieldsData();
+        dynamicFieldsData.set(event.target.id, event.target.value);
+        setEditedPayload(getEditedPayload(payload, dynamicFieldsData));
+    }
 
-        // console.log(editedPayload,getKeyName(event.target.id));
-
-        let a = editedPayload.replace(getKeyName(event.target.id), event.target.value)
-        setEditedPayload(editedPayload);
-
+    const getEditedPayload = (defaultPayload: string, fields: any): string => {
+        for (const [key, value] of fields?.entries()) {
+            defaultPayload = defaultPayload.replace(getKeyName(key), value);
+        }
+        return defaultPayload;
     }
 
     const getKeyName = (key: string) => {
@@ -56,7 +58,7 @@ export const PayloadEditor: React.FC<any> = (props: any) => {
         <Panel>
             <div className="sub-panel">
                 <div className="sub-heading">Template</div>
-                <div>{payload}</div>
+                <div>{editedPayload}</div>
             </div>
         </Panel>
         <Panel>
