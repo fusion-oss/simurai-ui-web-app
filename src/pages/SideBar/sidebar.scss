@@ -1,8 +1,9 @@
+@import "../../assets/scss/constants/colors.scss";
 .navigation {
   position: relative;
   width: 65px;
   height: 100vh;
-  background: #fff;
+  background: $white;
   border-radius: 25px 0px 0px 25px;
   &.open {
     width: 213px !important;
@@ -55,18 +56,18 @@
       }
       .sm {
         display: block;
-        width: 65px;
+        width: 60px;
       }
     }
     .toggleIcon {
-      height: 58px;
-      background: #0a36ff;
+      height: 60px;
+      background: $darkBlue;
       border-radius: 0px 10px 10px 0px;
       display: flex;
       align-items: center;
       padding: 0px 4px;
       margin-right: -18px;
-      color: #fff;
+      color: $white;
       cursor: pointer;
       .fa-caret-left {
         display: none;
@@ -85,9 +86,9 @@
     padding-top: 10px;
     li.active > a {
       font-weight: 700;
-      color: #1f70fb;
+      color: $lightBlue;
       &::after {
-        border-right: 3px solid #1f70fb;
+        border-right: 3px solid $lightBlue;
         content: "";
         height: 70%;
         width: 1px;
@@ -112,7 +113,7 @@
       align-items: center;
       justify-content: flex-start;
       text-decoration: none;
-      color: #393939;
+      color: $black;
       font-style: normal;
       font-weight: 400;
       .icon {

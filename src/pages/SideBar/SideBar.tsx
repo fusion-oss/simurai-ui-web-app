@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./sidebar.scss";
-import Logo from "../../assets/images/logo.png";
-import LogoSM from "../../assets/images/logosmall.png";
+import Logo from "../../assets/svgs/logo.svg";
+import LogoSM from "../../assets/svgs/logo-sm.svg";
 import {
   faCalendarDays,
   faGear,
