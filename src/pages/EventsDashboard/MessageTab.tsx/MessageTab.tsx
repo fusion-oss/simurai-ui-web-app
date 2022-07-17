@@ -1,18 +1,13 @@
 import React from "react";
-import { Panel } from "../../../components/Panel/Panel";
+import { HeaderEditor } from "./HeaderEditor";
 import './messageTab.scss';
+import { PayloadEditor } from "./PayloadEditor";
 
-export const MessageTab: React.FC<any> = () => {
+export const MessageTab: React.FC<any> = (props: any) => {
+    const { data } = props;
+
     return <div className="panel-container">
-        <div className="heading">Header</div>
-        <div className="panel-components">
-            <Panel>
-                <div className="sub-heading">Template</div>
-            </Panel>
-            <Panel>
-                <div className="sub-heading">Header Template</div>
-            </Panel>
-        </div>
-
+        <HeaderEditor header={data?.header} format={data?.ormat} />
+        <PayloadEditor payload={data?.payload} format={data?.format}/>
     </div>
 }

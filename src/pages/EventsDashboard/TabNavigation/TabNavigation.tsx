@@ -4,10 +4,11 @@ import { TabRenderer } from "./TabRenderer";
 
 export interface TabNavigation {
     tabMenus: string[];
+    data?: any;
 }
 
 export const TabNavigation: React.FC<any> = (props: TabNavigation) => {
-    const { tabMenus } = props;
+    const { tabMenus, data } = props;
     const [activeTab, setActiveTab] = useState<string>(tabMenus?.length ? tabMenus[0] : "");
 
     const onTabChange = (tabName: string) => {
@@ -20,6 +21,6 @@ export const TabNavigation: React.FC<any> = (props: TabNavigation) => {
 
     return <div>
         <MenuBar menus={tabMenus} onTabChange={onTabChange} />
-        <TabRenderer activeTab={activeTab} />
+        <TabRenderer activeTab={activeTab} data={data} />
     </div>
 }

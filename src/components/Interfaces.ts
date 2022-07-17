@@ -29,3 +29,16 @@ export interface DropdownProps extends BaseControls {
     value: string | null | undefined;
     isRequired?: boolean;
 }
+
+export enum inputType {
+    text = 'text',
+}
+
+export interface InputProps extends BaseControls {
+    type: inputType;
+    onCrossClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
+    onChange?: (event: React.SyntheticEvent<HTMLElement>) => void;
+    spellCheck?: boolean;
+    placeholder?: string;
+    autoComplete?: string;
+}
