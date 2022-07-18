@@ -9,11 +9,6 @@ export const DynamicFields: React.FC<any> = (props: any) => {
         return key?.replaceAll(trimText, '')
     }
 
-    useEffect(() => {
-        console.log(placeholderMap);
-
-    }, [JSON.stringify(Object.entries(placeholderMap))]);
-
     return <div className="container scroller">
         {placeholderMap?.size && Array.from(placeholderMap?.entries())?.map((item: any) => {
             const [key, value] = item;

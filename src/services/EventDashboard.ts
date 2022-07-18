@@ -16,7 +16,7 @@ export const fetchEvents = async () => {
 export const triggerEvent = async (payload: any) => {
     const { alias, HEADER, BODY } = payload;
     const data = await axios.post(`${BASE_URL}:${port}${triggereventsAPI}${alias}`, { HEADER, BODY }).then((response: any) => {
-    return response?.data;
+        return response?.data;
     }).catch((error) => console.log(error));
 
     return data;
