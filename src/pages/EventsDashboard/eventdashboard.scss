@@ -43,64 +43,65 @@
         align-items: flex-start;
 
         .col {
-            flex-direction: column;
+          flex-direction: column;
         }
         .json-viewer {
-            flex: 1;
-            border: 2px solid black;
-            border-radius: 5px;
-            height: 150px;
-            width: 100%;
-            resize: none;
+          flex: 1;
+          border: 2px solid black;
+          border-radius: 5px;
+          height: 150px;
+          width: 100%;
+          resize: none;
         }
-    }
-    .btn-container {
+      }
+      .btn-container {
         display: flex;
         justify-content: right;
         align-items: flex-end;
         margin-top: 2%;
 
         .btn {
-            text-decoration: none;
+          text-decoration: none;
+          border: none;
+          font-size: 16px;
+          color: #fff;
+          border-radius: 5px;
+          box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+          cursor: pointer;
+          outline: none;
+          transition: 0.2s all;
+          font-weight: 500;
+          max-width: 100%;
+          text-align: center;
+          width: auto;
+          padding: 0.25% 2%;
+          border: 2px solid $lightBlue;
+
+          &-primary {
+            color: rgb(255, 255, 255);
+            outline: currentcolor none medium;
+            background-color: rgb(54, 124, 255);
+            box-shadow: transparent 0px 0px 0px 2px;
+            border-radius: 10px;
             border: none;
-            font-size: 16px;
-            color: #fff;
-            border-radius: 5px;
-            box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
-            cursor: pointer;
-            outline: none;
-            transition: 0.2s all;
-            font-weight: 500;
-            max-width: 100%;
-            text-align: center;
-            width: auto;
-            padding: 0.25% 2%;
-            border: 2px solid $lightBlue;
+            font-size: large;
+            margin-left: 2%;
+          }
+          &-secondary {
+            color: rgb(54, 124, 255);
+            outline: currentcolor none medium;
+            background-color: white;
+            box-shadow: transparent 0px 0px 0px 2px;
+            border-radius: 10px;
 
-            &-primary {
-                color: rgb(255, 255, 255);
-                outline: currentcolor none medium;
-                background-color: rgb(54, 124, 255);
-                box-shadow: transparent 0px 0px 0px 2px;
-                border-radius: 10px;
-                border: none;
-                font-size: large;
-                margin-left: 2%;
-            }
-            &-secondary {
-                color: rgb(54, 124, 255);
-                outline: currentcolor none medium;
-                background-color: white;
-                box-shadow: transparent 0px 0px 0px 2px;
-                border-radius: 10px;
-
-                font-size: large;
-            }
+            font-size: large;
+          }
         }
         .btn:active {
-            transform: scale(1);
-            box-shadow: 3px 2px 22px 1px rgba(54, 124, 255, 0.9);
+          transform: scale(1);
+          box-shadow: 3px 2px 22px 1px rgba(54, 124, 255, 0.9);
         }
+      }
     }
   }
   .btn-primary {
