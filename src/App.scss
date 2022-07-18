@@ -1,15 +1,37 @@
+@import "assets/scss/constants/colors.scss";
 .App {
   .heading {
-    padding: 1% 0 1% 2px;
-    font-weight: 500;
-    font-size: 22px;
+    padding: 1% 0;
+    font-weight: 800;
+    font-size: 1rem;
   }
-  .sub-heading{
-    padding: 1% 0 1% 2px;
+  .sub-heading {
+    padding: 0% 0 1% 2px;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 1rem;
   }
+}
 
+.scroller {
+  overflow-x: auto;
+  overflow-y: auto;
+  scrollbar-color: $moonMist $white;
+  scrollbar-width: thin;
+}
+
+// scrollbar settings for chrome
+::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background: $moonMist;
 }
 
 .App-logo {

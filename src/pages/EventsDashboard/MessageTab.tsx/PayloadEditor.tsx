@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { Panel } from "../../../components/Panel/Panel"
 import { DynamicFields } from "./DynamicFields";
 import './editor.scss';
 
 export const PayloadEditor: React.FC<any> = (props: any) => {
-    const { payload, format } = props;
+    const { payload, format, title, payloadType } = props;
     const [dynamicFieldsData, setDynamicFieldsData] = useState<any>(new Map());
+    let tempMap = new Map(dynamicFieldsData);
     const [editedPayload, setEditedPayload] = useState<any>(payload);
 
-    const findIndexes = (payload: any) => {
+    const createPlaceholderMap = (payload: any) => {
         let flag = 0, startIndex = 0;
         const placeholderMap = new Map();
         for (let i = 0, j = i + 1; i < payload?.length - 2; i++, j++) {
@@ -29,22 +29,20 @@ export const PayloadEditor: React.FC<any> = (props: any) => {
     }
 
     useEffect(() => {
-        setDynamicFieldsData(findIndexes(payload));
+        setDynamicFieldsData(createPlaceholderMap(payload));
         setEditedPayload(payload);
     }, [payload]);
 
-    useEffect(() => {
-        setDynamicFieldsData(findIndexes(editedPayload));
-    }, [editedPayload])
-
     const onFieldEdited = (event: any) => {
-        dynamicFieldsData.set(event.target.id, event.target.value);
-        setEditedPayload(getEditedPayload(payload, dynamicFieldsData));
+        tempMap.set(event.target.id, event.target.value);
+        setDynamicFieldsData(tempMap);
+        setEditedPayload(getEditedPayload(payload, tempMap));
     }
 
     const getEditedPayload = (defaultPayload: string, fields: any): string => {
         for (const [key, value] of fields?.entries()) {
-            defaultPayload = defaultPayload.replace(getKeyName(key), value);
+            if (value && value !== "")
+                defaultPayload = defaultPayload.replaceAll(getKeyName(key), value);
         }
         return defaultPayload;
     }
@@ -53,21 +51,29 @@ export const PayloadEditor: React.FC<any> = (props: any) => {
         return "${" + key + "}";
     }
 
-    return <>
-        <div className="heading">Payload</div>
-        <Panel>
-            <div className="sub-panel">
-                <div className="sub-heading">Template</div>
-                <div>{editedPayload}</div>
-            </div>
-        </Panel>
-        <Panel>
-            <div className="sub-panel">
-                <div className="sub-heading">Template Parameters</div>
-                <div className="input-container">
-                    <DynamicFields placeholderMap={dynamicFieldsData} onFieldChange={onFieldEdited} />
+    const onClear = (e: any, key: string) => {
+        tempMap.set(key, "");
+        setDynamicFieldsData(tempMap);
+        setEditedPayload(getEditedPayload(payload, tempMap));
+    }
+
+    return <div className="template">
+        <div className="heading">{title}</div>
+        <div className="flex">
+            <div className="panel">
+                <div className="sub-panel">
+                    <div className="sub-heading">Template</div>
+                    <div className="template-viewer scroller">{editedPayload}</div>
                 </div>
             </div>
-        </Panel>
-    </>
+            <div className="panel">
+                <div className="sub-panel scroller">
+                    <div className="sub-heading">Template Parameters</div>
+                    <div className="container">
+                        <DynamicFields payloadType={payloadType} placeholderMap={dynamicFieldsData} onFieldChange={onFieldEdited} onClear={onClear} />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }

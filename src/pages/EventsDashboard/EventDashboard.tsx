@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { fetchEvents, triggerEvent } from "../../services/EventDashboard";
 import { Tab } from "../TabConfig";
 import { _events } from "./data";
@@ -16,6 +16,7 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
     const [header, setHeader] = useState<any>();
     const [format, setFormat] = useState<any>();
     const [payload, setPayload] = useState<any>();
+    
 
     useEffect(() => {
         fetchEvents().then((response: any) => {
@@ -53,7 +54,15 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
         setPayload(null);
         setFormat(null)
     }
-    
+
+    const onSendClick = (e: any) => {
+
+    }
+
+    const onResetClick = (e: any) => {
+
+    }
+
     return <div className="event-dashboard-container">
         <EventFilter
             onEventChange={onEventChange}
@@ -62,7 +71,12 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
             categories={categories}
             selectedCategory={selectedEventCategory}
             selectedEvent={selectedEvent} />
-    
-        <TabNavigation tabMenus={[Tab.Message, Tab.Details]} data={{ header, payload,format }} />
+
+        {header && payload && <> <TabNavigation tabMenus={[Tab.Message, Tab.Details]} data={{ header, payload, format }} onResetClick />
+            <div className="btn-container">
+                <button id="reset" className="btn btn-secondary" onClick={onResetClick}>Reset</button>
+                <button id="send" className="btn btn-primary" onClick={onSendClick}>Send</button>
+            </div>
+        </>}
     </div>
 }

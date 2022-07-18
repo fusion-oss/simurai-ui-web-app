@@ -36,7 +36,7 @@ export enum inputType {
 
 export interface InputProps extends BaseControls {
     type: inputType;
-    onCrossClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
+    onClear?: (event: React.SyntheticEvent<SVGSVGElement>) => void;
     onChange?: (event: React.SyntheticEvent<HTMLElement>) => void;
     spellCheck?: boolean;
     placeholder?: string;
