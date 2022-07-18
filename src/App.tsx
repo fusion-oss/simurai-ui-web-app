@@ -1,7 +1,7 @@
 import "./App.scss";
 import { LayoutContainer } from "./pages/Layoutcontainer";
 import { AppRoute } from "./routes/AppRoute";
-import SideBarNav from "./pages/SideBar/SideBar";
+import SideBarNav from "./components/SideBar/SideBar";
 
 function App() {
   return (

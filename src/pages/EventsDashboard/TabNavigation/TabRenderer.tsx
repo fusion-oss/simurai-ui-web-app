@@ -3,13 +3,14 @@ import { MessageTab } from "../MessageTab.tsx/MessageTab";
 
 export interface TabRender {
     activeTab: string;
+    data?: any;
 }
 
 export const TabRenderer: React.FC<any> = (props: TabRender) => {
-    const { activeTab } = props;
+    const { activeTab, data } = props;
 
     if (Tab.Message === activeTab) {
-        return <MessageTab />
+        return <MessageTab data={data} />
     } else if (Tab.Details === activeTab) {
         return <>Details</>
     }
