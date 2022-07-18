@@ -42,3 +42,12 @@ export interface InputProps extends BaseControls {
     placeholder?: string;
     autoComplete?: string;
 }
+
+export interface JsonViewerProps extends BaseControls {
+    theme?: string;
+    jsonObj?: any;
+}
+export interface XMLViewerProps extends BaseControls {
+    theme?: string;
+    xml?: string;
+}

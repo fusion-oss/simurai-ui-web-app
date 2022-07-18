@@ -1,8 +1,9 @@
 import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import { DynamicFields } from "./DynamicFields";
 import './editor.scss';
+import { TemplateViewer } from "./TemplateViewer";
 
-export const PayloadEditor: React.FC<any> = forwardRef((props: any, ref: any) => {
+export const TemplateEditor: React.FC<any> = forwardRef((props: any, ref: any) => {
     const { payload, format, title, payloadType } = props;
     const [dynamicFieldsData, setDynamicFieldsData] = useState<any>(new Map());
     let tempMap = new Map(dynamicFieldsData);
@@ -67,14 +68,15 @@ export const PayloadEditor: React.FC<any> = forwardRef((props: any, ref: any) =>
         setDynamicFieldsData(tempMap);
         setEditedPayload(getEditedPayload(payload, tempMap));
     }
-
+    
     return <div className="template">
         <div className="heading">{title}</div>
         <div className="flex">
             <div className="panel">
                 <div className="sub-panel">
                     <div className="sub-heading">Template</div>
-                    <div className="template-viewer scroller">{editedPayload}</div>
+                    {/* <div className="template-viewer scroller">{editedPayload}</div> */}
+                    <TemplateViewer format={format} template={editedPayload} />
                 </div>
             </div>
             <div className="panel">
