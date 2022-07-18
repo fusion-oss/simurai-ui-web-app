@@ -1,12 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import { DynamicFields } from "./DynamicFields";
 import './editor.scss';
 
-export const PayloadEditor: React.FC<any> = (props: any) => {
+export const PayloadEditor: React.FC<any> = forwardRef((props: any, ref: any) => {
     const { payload, format, title, payloadType } = props;
     const [dynamicFieldsData, setDynamicFieldsData] = useState<any>(new Map());
     let tempMap = new Map(dynamicFieldsData);
     const [editedPayload, setEditedPayload] = useState<any>(payload);
+
+    useImperativeHandle(ref, () => ({
+        onReset() {
+            tempMap = createPlaceholderMap(payload)
+            setDynamicFieldsData(tempMap);
+            setEditedPayload(payload);
+        },
+        getData() {
+            return dynamicFieldsData;
+        }
+    }));
 
     const createPlaceholderMap = (payload: any) => {
         let flag = 0, startIndex = 0;
@@ -20,7 +31,7 @@ export const PayloadEditor: React.FC<any> = (props: any) => {
             } else {
                 if (payload[i] === "}") {
                     flag = 0;
-                    placeholderMap.set(payload.substring(startIndex, i), null);
+                    placeholderMap.set(payload.substring(startIndex, i), "");
                     startIndex = 0;
                 }
             }
@@ -75,5 +86,6 @@ export const PayloadEditor: React.FC<any> = (props: any) => {
                 </div>
             </div>
         </div>
+
     </div>
-}
+});

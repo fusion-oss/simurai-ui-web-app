@@ -16,7 +16,6 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
     const [header, setHeader] = useState<any>();
     const [format, setFormat] = useState<any>();
     const [payload, setPayload] = useState<any>();
-    
 
     useEffect(() => {
         fetchEvents().then((response: any) => {
@@ -55,15 +54,8 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
         setFormat(null)
     }
 
-    const onSendClick = (e: any) => {
-
-    }
-
-    const onResetClick = (e: any) => {
-
-    }
-
     return <div className="event-dashboard-container">
+        <h1>Events</h1>
         <EventFilter
             onEventChange={onEventChange}
             onEventCategoryChange={onEventCategoryChange}
@@ -72,11 +64,6 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
             selectedCategory={selectedEventCategory}
             selectedEvent={selectedEvent} />
 
-        {header && payload && <> <TabNavigation tabMenus={[Tab.Message, Tab.Details]} data={{ header, payload, format }} onResetClick />
-            <div className="btn-container">
-                <button id="reset" className="btn btn-secondary" onClick={onResetClick}>Reset</button>
-                <button id="send" className="btn btn-primary" onClick={onSendClick}>Send</button>
-            </div>
-        </>}
+        {header && payload && <TabNavigation tabMenus={[Tab.Message, Tab.Details]} data={{ header, payload, format,alias: selectedEvent }} onResetClick />}
     </div>
 }
