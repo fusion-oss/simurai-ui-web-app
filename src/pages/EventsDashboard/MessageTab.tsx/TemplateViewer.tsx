@@ -11,8 +11,9 @@ export interface TemplateViewerProps {
 }
 export const TemplateViewer: React.FC<any> = (props: TemplateViewerProps) => {
     const { format, template } = props;
-
-    if (format.toLowerCase() === TemplateFormat.json) {
+    console.log(format,template);
+    
+    if (format?.toLowerCase() === TemplateFormat.json) {
         let json;
         try {
             json = JSON.parse(template);
@@ -21,7 +22,7 @@ export const TemplateViewer: React.FC<any> = (props: TemplateViewerProps) => {
             console.error('invalid json');
             return null;
         }
-    } else if (format.toLowerCase() === TemplateFormat.xml) {
+    } else if (format?.toLowerCase() === TemplateFormat.xml) {
         return <Xml xml={template} />
     }
     return null;

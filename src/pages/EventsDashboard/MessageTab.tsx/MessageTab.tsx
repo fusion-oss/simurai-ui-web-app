@@ -1,5 +1,7 @@
 import React, { useRef } from "react";
 import { triggerEvent } from "../../../services/EventDashboard";
+import { MessageService } from "../../../utilities/Toast/MessageService";
+import { EmptyBodyMessage, EmptyHeaderMessage, FailMessage, SuccessMessage } from "../../Constants";
 import './messageTab.scss';
 import { TemplateEditor } from "./TemplateEditor";
 export enum PayloadType {
@@ -12,7 +14,7 @@ export enum TemplateType {
 }
 
 export const MessageTab: React.FC<any> = (props: any) => {
-    const { data } = props;
+    const { eventDetails } = props;
     const headerRef = useRef<any>();
     const bodyRef = useRef<any>();
 
@@ -22,10 +24,10 @@ export const MessageTab: React.FC<any> = (props: any) => {
     }
 
     const onSendClick = () => {
-        const HEADER = validateResponse(headerRef?.current?.getData()) ? headerRef?.current?.getData() : console.log('Header Field is empty');
-        const BODY = validateResponse(bodyRef?.current?.getData()) ? bodyRef?.current?.getData() : console.log('Body Field is empty');
+        const HEADER = validateResponse(headerRef?.current?.getData()) ? headerRef?.current?.getData() : MessageService.showToastMessage(EmptyHeaderMessage);
+        const BODY = validateResponse(bodyRef?.current?.getData()) ? bodyRef?.current?.getData() : MessageService.showToastMessage(EmptyBodyMessage);
         if (HEADER && BODY)
-            trigger({ HEADER: generateValidResponse(HEADER, "HEADER"), BODY: generateValidResponse(BODY, "BODY"), alias: data?.alias })
+            trigger({ HEADER: generateValidResponse(HEADER, "HEADER"), BODY: generateValidResponse(BODY, "BODY"), alias: eventDetails?.alias })
     }
 
     const isFieldEmpty = (list: string[]): boolean => {
@@ -53,14 +55,20 @@ export const MessageTab: React.FC<any> = (props: any) => {
     const trigger = (payload: any) => {
         triggerEvent(payload).then((response: any) => {
             console.log(response);
+            if (response?.response?.status === 200) {
+                MessageService.showToastMessage(`${eventDetails?.name} ${SuccessMessage} ${eventDetails?.targetEndpoint?.name}`);
+            } else {
+                MessageService.showToastMessage(`${eventDetails?.name} ${FailMessage} ${eventDetails?.targetEndpoint?.name}`);
+            }
         }).catch(e => {
             console.log(e);
+
         })
     }
 
     return <div className="template-container">
-        <TemplateEditor title={"Header"} payload={data?.header} format={data?.format} payloadType={PayloadType.Header} ref={headerRef} />
-        <TemplateEditor title={"Payload"} payload={data?.payload} format={data?.format} payloadType={PayloadType.Body} ref={bodyRef} />
+        <TemplateEditor title={"Header"} payload={eventDetails?.headerTemplate} format={eventDetails?.format} payloadType={PayloadType.Header} ref={headerRef} />
+        <TemplateEditor title={"Payload"} payload={eventDetails?.bodyTemplate} format={eventDetails?.format} payloadType={PayloadType.Body} ref={bodyRef} />
         <div className="btn-container">
             <button id="reset" className="btn btn-secondary" onClick={onResetClick}>Reset</button>
             <button id="send" className="btn btn-primary" onClick={onSendClick}>Send</button>
