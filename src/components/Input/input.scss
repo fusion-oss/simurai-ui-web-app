@@ -8,9 +8,10 @@
         padding: 1%;
         width: 100%;
         border-radius: 5px;
-        border: 0.1px solid;
+        border: none;
         background-color: white;
     }
+    color: $black;
     .input:focus {
         outline: none !important;
         border: 1px solid $lightBlue;
@@ -23,6 +24,7 @@
         top: 30%;
         right: 2%;
         color: black;
+        cursor: pointer;
     }
     input:focus::placeholder {
         color: transparent;
@@ -30,4 +32,16 @@
     .input-label {
         text-transform: capitalize;
     }
+    .input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #B4B4B4;
+        opacity: 1; /* Firefox */
+      }
+      
+      :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #B4B4B4;
+      }
+      
+      ::-ms-input-placeholder { /* Microsoft Edge */
+        color: #B4B4B4;
+      }
 }

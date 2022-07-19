@@ -37,22 +37,7 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
             setHeader(_events[index]?.headerTemplate ?? null);
             setPayload(_events[index]?.bodyTemplate ?? null);
             setFormat(_events[index]?.format ?? null);
-            setEventDetails(_events[index]);
-
-            //     "name": "EXTRACTION_REQUEST",
-            // "alias": "EXTRACTION_REQUEST_V1",
-            // "format": "JSON",
-            // "category": "Inventory",
-            // "source": null,
-            // "headerTemplate": "{\"Key1\":\"${HEADER.header1}\"}",
-            // "bodyTemplate": "{\"dispenseTerminalId\":\"${BODY.terminalId}\",\"containers\":[\"${BODY.containerId1}\",\"${BODY.containerId2}\"]}",
-            // "errorQueue": "alert-stage-errors",
-            // "usage": "Request customer order totes to be delivered to a terminal for either automated or manual dispense",
-            // "targetEndpoint": {
-            //     "name": "activeMqEndpoint",
-            //     "type": "QUEUE",
-            //     "uri": "activemq:queue:amqSrc1?connectionFactory=activemq_cf1&disableReplyTo=true&preserveMessageQos=true"
-            // }
+            setEventDetails(_events[index]);           
         }
     }, [selectedEvent]);
 
@@ -73,7 +58,7 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
     }
 
     return <div className="event-dashboard-container">
-        <h1>Events</h1>
+        <h3>Events</h3>
         <EventFilter
             onEventChange={onEventChange}
             onEventCategoryChange={onEventCategoryChange}

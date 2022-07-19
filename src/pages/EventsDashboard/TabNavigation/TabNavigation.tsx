@@ -15,12 +15,8 @@ export const TabNavigation: React.FC<any> = (props: TabNavigation) => {
         setActiveTab(tabName);
     }
 
-    useEffect(() => {
-
-    }, [activeTab])
-
     return <div>
-        <MenuBar menus={tabMenus} onTabChange={onTabChange} />
+        <MenuBar activeTab={activeTab} menus={tabMenus} onTabChange={onTabChange} />
         <TabRenderer activeTab={activeTab} eventDetails={eventDetails} />
     </div>
 }

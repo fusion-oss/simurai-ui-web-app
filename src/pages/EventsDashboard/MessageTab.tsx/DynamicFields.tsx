@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Input } from "../../../components/Input/Input";
 import { inputType } from "../../../components/Interfaces";
 import './editor.scss';
@@ -9,7 +8,7 @@ export const DynamicFields: React.FC<any> = (props: any) => {
         return key?.replaceAll(trimText, '')
     }
 
-    return <div className="container scroller">
+    return <div className="field-container scroller">
         {placeholderMap?.size && Array.from(placeholderMap?.entries())?.map((item: any) => {
             const [key, value] = item;
             return <Input customClass="dynamic-input"

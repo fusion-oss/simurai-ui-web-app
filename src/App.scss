@@ -2,28 +2,18 @@
 .App {
   display: flex;
   border-radius: 25px;
-  background-color: #f5f5f5;
+  background-color: #F5F5F5;
+  height: 100vh;
   .heading {
-    padding: 1% 0;
+    padding: 0.25% 0;
     font-weight: 800;
     font-size: 1rem;
   }
   .sub-heading {
     padding: 0% 0 1% 2px;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 1rem;
   }
-
-  .Toastify__toast--warning {
-    background: red;
-  }
-}
-
-.scroller {
-  overflow-x: auto;
-  overflow-y: auto;
-  scrollbar-color: $moonMist $white;
-  scrollbar-width: thin;
 }
 
 // scrollbar settings for chrome
