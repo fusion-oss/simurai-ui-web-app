@@ -9,7 +9,8 @@ export const Dropdown = (props: DropdownProps) => {
     const ref: any = useRef(null);
 
     const onOptionChange = (option: string) => {
-        onChange(option);
+        if (value !== option)
+            onChange(option);
         setShowOptions(false);
     };
 

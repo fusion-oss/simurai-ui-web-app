@@ -91,14 +91,11 @@ export const TemplateEditor: React.FC<any> = forwardRef((props: any, ref: any) =
                     </div>
                 </div>
             </div>
-            <>{console.log('dslaljlfjalsdjf', payloadType)
-            }</>
+
             <div className="panel panel-secondary">
                 <div className="sub-panel">
                     <div className="sub-heading">Template Parameters</div>
-                    
-                        <DynamicFields payloadType={payloadType} placeholderMap={dynamicFieldsData} onFieldChange={onFieldEdited} onClear={onClear} />
-                    
+                    <DynamicFields payloadType={payloadType} placeholderMap={dynamicFieldsData} onFieldChange={onFieldEdited} onClear={onClear} />
                 </div>
             </div>
         </div>
