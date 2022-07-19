@@ -1,4 +1,6 @@
 import React, { useRef } from "react";
+import { Button } from "../../../components/Button/Button";
+import { ButtonVariant } from "../../../components/Interfaces";
 import { triggerEvent } from "../../../services/EventDashboard";
 import { MessageService } from "../../../utilities/Toast/MessageService";
 import { EmptyBodyMessage, EmptyHeaderMessage, FailMessage, SuccessMessage } from "../../Constants";
@@ -72,8 +74,8 @@ export const MessageTab: React.FC<any> = (props: any) => {
         <TemplateEditor title={"Header"} payload={eventDetails?.headerTemplate} format={eventDetails?.format} payloadType={PayloadType.Header} ref={headerRef} />
         <TemplateEditor title={"Payload"} payload={eventDetails?.bodyTemplate} format={eventDetails?.format} payloadType={PayloadType.Body} ref={bodyRef} />
         <div className="btn-container">
-            <button id="reset" className="btn btn-secondary" onClick={onResetClick}>Reset</button>
-            <button id="send" className="btn btn-primary" onClick={onSendClick}>Send</button>
+            <Button id="reset" variant={ButtonVariant.Secondary} onClick={onResetClick}>Reset</Button>
+            <Button id="send" variant={ButtonVariant.Primary} onClick={onSendClick}>Send</Button>
         </div>
     </div>
 }

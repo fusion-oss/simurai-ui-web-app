@@ -1,3 +1,4 @@
+import { PageNotFound } from '../components/PageNotFound/PageNotFound';
 import { EventDashboard } from '../pages/EventsDashboard/EventDashboard';
 
 export interface RouteConfig {
@@ -13,8 +14,13 @@ export const routes = [
         routes: []
     },
     {
-        path: "/home",
-        component: () => <>Home</>,
+        path: "/events",
+        component: EventDashboard,
+        routes: []
+    },
+    {
+        path: "*",
+        component: PageNotFound,
         routes: []
     }
 ];

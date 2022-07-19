@@ -22,7 +22,7 @@ const SideBar = (): JSX.Element => {
   return (
     <div className={isOpen ? "navigation open" : "navigation"}>
       <div className="side-nav">
-        <a className="logo" href="#/">
+        <a className="logo" href="/">
           <img className="bg" alt="logo" src={Logo} />
           <img className="sm" alt="small logo" src={LogoSM} />
         </a>
@@ -34,7 +34,7 @@ const SideBar = (): JSX.Element => {
 
       <ul className="nav-link">
         <li className="active">
-          <a href="#/events">
+          <a href="/events">
             <span className="icon">
               <FontAwesomeIcon icon={faCalendarDays} />
             </span>
@@ -42,7 +42,7 @@ const SideBar = (): JSX.Element => {
           </a>
         </li>
         <li>
-          <a href="#/setting">
+          <a href="/setting">
             <span className="icon">
               <FontAwesomeIcon icon={faGear} />
             </span>
@@ -50,7 +50,7 @@ const SideBar = (): JSX.Element => {
           </a>
         </li>
         <li>
-          <a href="#/contact">
+          <a href="/contact">
             <span className="icon">
               <FontAwesomeIcon icon={faAddressBook} />
             </span>
@@ -58,7 +58,7 @@ const SideBar = (): JSX.Element => {
           </a>
         </li>
         <li>
-          <a href="#/help">
+          <a href="/help">
             <span className="icon">
               <FontAwesomeIcon icon={faCircleQuestion} />
             </span>

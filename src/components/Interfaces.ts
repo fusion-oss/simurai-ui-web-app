@@ -17,6 +17,7 @@ export interface TextInputProps extends BaseControls {
 }
 
 export type buttonVariant = 'primary' | 'secondary';
+
 export interface IButtonProps extends BaseControls {
     label: string;
     variant: buttonVariant;
@@ -47,7 +48,20 @@ export interface JsonViewerProps extends BaseControls {
     theme?: string;
     jsonObj?: any;
 }
+
 export interface XMLViewerProps extends BaseControls {
     theme?: string;
     xml?: string;
+}
+
+export enum ButtonVariant {
+    Primary = 'btn-primary',
+    Secondary = 'btn-secondary'
+}
+
+export interface ButtonProps extends BaseControls {
+    variant: ButtonVariant;
+    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    customeClass?: string;
+    children: any;
 }

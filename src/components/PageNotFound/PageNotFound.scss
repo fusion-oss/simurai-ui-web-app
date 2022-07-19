@@ -1,0 +1,15 @@
+@import "../../assets/scss/constants/colors.scss";
+
+.page-not-found {
+    text-align: center;
+    width: 100%;
+    color: $lightBlue;
+
+    .heading {
+        font-size: 5rem;
+    }
+    .sub-heading {
+        font-size: 3rem;
+    }
+    
+}

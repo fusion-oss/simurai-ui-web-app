@@ -17,8 +17,8 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
 
     useEffect(() => {
         fetchEvents().then((response: any) => {
-            setEventData(response);
-            setCategories(getUniqueCategoriesFromEvents(response))
+            setEventData(_events);
+            setCategories(getUniqueCategoriesFromEvents(_events))
         }).catch((error: AxiosError) => console.error(error));
     }, []);
 
@@ -35,7 +35,7 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
         }
     }, [selectedEvent]);
 
-    const getUniqueCategoriesFromEvents = (_events: any): string[] => {
+    const getUniqueCategoriesFromEvents = (_events: any): string[] => {        
         return _events ? Array.from(new Set(_events?.map((item: any) => item.category))) : [];
     }
 
@@ -60,4 +60,4 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
 
         {eventDetails && <TabNavigation tabMenus={[Tab.Message, Tab.Details]} eventDetails={eventDetails} onResetClick />}
     </div>
-}
+} 
