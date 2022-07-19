@@ -3,6 +3,5 @@ import { JsonViewerProps } from "../Interfaces"
 
 export const JSONViewer: React.FC<any> = (props: JsonViewerProps) => {
     const { jsonObj } = props;
-    return <ReactJson src={jsonObj} />
-
+    return <ReactJson src={jsonObj} displayDataTypes={false} />
 }

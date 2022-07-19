@@ -9,8 +9,9 @@ export enum PayloadType {
     Body = "Body"
 }
 export enum TemplateType {
-    Header = "Header",
-    Body = "Body"
+    JSON = "json",
+    XML = "xml",
+    TEXT = "text"
 }
 
 export const MessageTab: React.FC<any> = (props: any) => {

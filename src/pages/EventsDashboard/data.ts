@@ -66,13 +66,13 @@ export const _events = [
     {
         "name": "EXTRACTION_REQUEST",
         "alias": "EXTRACTION_REQUEST_V3",
-        "format": "xml",
+        "format": "sass",
         "source": null,
         "category": "Inventory",
         "errorQueue": "alert-stage-errors",
         "usage": "Request customer order totes to be delivered to a terminal for either automated or manual dispense",
-        "headerTemplate": "<breakfast_menu><food>        <name>${Header.key1}</name></breakfast_menu>",
-        "bodyTemplate": "<breakfast_menu><food>        <name>Belgian Waffles</name>        <price>$5.95</price>        <description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>        <calories>650</calories>        </food>        <food>        <name>${BODY.heelo}</name>        <price>$7.95</price>        <description>Light Belgian waffles covered with strawberries and whipped cream</description>        <calories>900</calories>        </food>        <food>        <name>Berry-Berry Belgian Waffles</name>        <price>$8.95</price>        <description>Light Belgian waffles covered with an assortment of fresh berries and whipped cream</description>        <calories>900</calories>        </food>        <food>        <name>French Toast</name>        <price>$4.50</price>        <description>Thick slices made from our homemade sourdough bread</description>        <calories>600</calories>        </food>        <food>        <name>Homestyle Breakfast</name>        <price>$6.95</price>        <description>Two eggs, bacon or sausage, toast, and our ever-popular hash browns</description>        <calories>950</calories>        </food>        </breakfast_menu>",
+        "headerTemplate": "{\"Key1\":\"${HEADER.header1}\"}",
+        "bodyTemplate": "<breakfast_menu><food>   ${BODY.heedloddsafasdf}   ${BODY.heedlodasdfasdfafdads}    ${BODY.heedlodfdd} ${BODY.heedlodeee} ${BODY.heedlod}  ${BODY.heedlos}   ${BODY.heedlo}     <name>Belgian Waffles</name>        <price>${BODY.heelo}</price>        <description>${BODY.heelo}</description>        <calories>${BODY.heelo}</calories>        </food>        <food>        <name>${BODY.heelo}</name>        <price>$7.95</price>        <description>Light Belgian waffles covered with strawberries and whipped cream</description>        <calories>900</calories>        </food>        <food>        <name>Berry-Berry Belgian Waffles</name>        <price>$8.95</price>        <description>Light Belgian waffles covered with an assortment of fresh berries and whipped cream</description>        <calories>900</calories>        </food>        <food>        <name>French Toast</name>        <price>$4.50</price>        <description>Thick slices made from our homemade sourdough bread</description>        <calories>600</calories>        </food>        <food>        <name>Homestyle Breakfast</name>        <price>$6.95</price>        <description>Two eggs, bacon or sausage, toast, and our ever-popular hash browns</description>        <calories>950</calories>        </food>        </breakfast_menu>",
         "targetEndpoint": {
             "name": "activeMqEndpoint",
             "type": "QUEUE",

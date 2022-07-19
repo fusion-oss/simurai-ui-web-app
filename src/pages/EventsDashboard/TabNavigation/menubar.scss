@@ -5,11 +5,10 @@
     width: 100%;
     border-bottom: 2px solid $darkBlue;
     .menu {
-        height: 1%;
-        background-color: $white;
-        padding: 0.5%;
-        color: $black;
-        border: 0.1 solid $darkBlue;
+        background-color: #ffffff;
+        padding: 0.5% 2%;
+        color: #393939;
+        border: 0.1 solid #0a36ff;
         border-radius: 2%;
         margin: 1px;
         border-top-left-radius: 10px;
@@ -17,7 +16,7 @@
         cursor: pointer;
         border: none;
         outline: none;
-        transition: 0.3s;
+        transition: 0.1s;
         min-width: 7%;
     }
 

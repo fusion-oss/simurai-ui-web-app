@@ -9,14 +9,12 @@ export const Input = (props: InputProps) => {
     const showCrossIcon = (_value: string) => {
         return _value && _value !== "";
     }
-    const [showLabel, setShowLabel] = useState(false);
-
+    
     return (
-        <div className='input-container'>
-            {showLabel && <label className='input-label'>{placeholder}</label>}
+        <div className={`input-container ${customClass}`}>            
             <input
                 type={type}
-                className={`input ${customClass}`}
+                className={`input`}
                 spellCheck={spellCheck}
                 value={value}
                 id={id}

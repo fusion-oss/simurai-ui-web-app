@@ -4,8 +4,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #dce0e8;
-  padding: 5px;  
+  padding: 5px;
   overflow: hidden;
+  overflow-x: auto;
+  overflow-y: auto;
+  scrollbar-color: #c8c8c2 white;
+  scrollbar-width: thin;
 }
 
 *,
@@ -23,7 +27,6 @@ body {
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  
 }
 img,
 picture,

@@ -1,6 +1,7 @@
 import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import { DynamicFields } from "./DynamicFields";
 import './editor.scss';
+import { PayloadType, TemplateType } from "./MessageTab";
 import { TemplateViewer } from "./TemplateViewer";
 
 export const TemplateEditor: React.FC<any> = forwardRef((props: any, ref: any) => {
@@ -68,26 +69,38 @@ export const TemplateEditor: React.FC<any> = forwardRef((props: any, ref: any) =
         setDynamicFieldsData(tempMap);
         setEditedPayload(getEditedPayload(payload, tempMap));
     }
-    
+
+    const getFormat = (type: string) => {
+        if (type === PayloadType.Header) {
+            return TemplateType.JSON
+        } else if (type === PayloadType.Body) {
+            return format;
+        } else {
+            return TemplateType.TEXT;
+        }
+    }
+
     return <div className="template">
         <div className="heading">{title}</div>
         <div className="flex">
-            <div className="panel">
+            <div className="panel panel-primary">
                 <div className="sub-panel">
                     <div className="sub-heading">Template</div>
-                    {/* <div className="template-viewer scroller">{editedPayload}</div> */}
-                    <TemplateViewer format={format} template={editedPayload} />
-                </div>
-            </div>
-            <div className="panel">
-                <div className="sub-panel scroller">
-                    <div className="sub-heading">Template Parameters</div>
-                    <div className="container">
-                        <DynamicFields payloadType={payloadType} placeholderMap={dynamicFieldsData} onFieldChange={onFieldEdited} onClear={onClear} />
+                    <div className="template-viewer scroller">
+                        <TemplateViewer format={getFormat(payloadType)} template={editedPayload} />
                     </div>
                 </div>
             </div>
+            <>{console.log('dslaljlfjalsdjf', payloadType)
+            }</>
+            <div className="panel panel-secondary">
+                <div className="sub-panel">
+                    <div className="sub-heading">Template Parameters</div>
+                    
+                        <DynamicFields payloadType={payloadType} placeholderMap={dynamicFieldsData} onFieldChange={onFieldEdited} onClear={onClear} />
+                    
+                </div>
+            </div>
         </div>
-
     </div>
 });
