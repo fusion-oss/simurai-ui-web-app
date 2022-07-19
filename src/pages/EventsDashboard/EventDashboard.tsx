@@ -13,31 +13,25 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
     const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
     const [categories, setCategories] = useState<string[]>([]);
     const [events, setEvents] = useState<any>([]);
-    const [header, setHeader] = useState<any>();
-    const [format, setFormat] = useState<any>();
-    const [payload, setPayload] = useState<any>();
     const [eventDetails, setEventDetails] = useState<any>();
 
     useEffect(() => {
         fetchEvents().then((response: any) => {
-            // setEventData(_events);
-            setCategories(getUniqueCategoriesFromEvents(_events))
+            setEventData(response);
+            setCategories(getUniqueCategoriesFromEvents(response))
         }).catch((error: AxiosError) => console.error(error));
     }, []);
 
     useEffect(() => {
         setSelectedEvent(null);
-        setEvents(_events?.filter((item: any) => item.category === selectedEventCategory)?.map((item: any) => item.alias));
+        setEvents(eventData?.filter((item: any) => item.category === selectedEventCategory)?.map((item: any) => item.alias));
     }, [selectedEventCategory]);
 
     useEffect(() => {
-        const index = _events.findIndex((item: any) => item.alias === selectedEvent);
+        const index = eventData?.findIndex((item: any) => item.alias === selectedEvent);
 
-        if (index !== -1) {
-            setHeader(_events[index]?.headerTemplate ?? null);
-            setPayload(_events[index]?.bodyTemplate ?? null);
-            setFormat(_events[index]?.format ?? null);
-            setEventDetails(_events[index]);           
+        if (index !== -1 && eventData) {
+            setEventDetails(eventData[index]);
         }
     }, [selectedEvent]);
 
@@ -51,9 +45,6 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
 
     const onEventCategoryChange = (categoryName: string) => {
         setSelectedEventCategory(categoryName);
-        setHeader(null);
-        setPayload(null);
-        setFormat(null);
         setEventDetails(null);
     }
 
@@ -67,7 +58,6 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
             selectedCategory={selectedEventCategory}
             selectedEvent={selectedEvent} />
 
-        {/* {header && payload && <TabNavigation tabMenus={[Tab.Message, Tab.Details]} data={{ header, payload, format, alias: selectedEvent, eventName: selectedEvent, targetName: "kuch toh" }} onResetClick />} */}
         {eventDetails && <TabNavigation tabMenus={[Tab.Message, Tab.Details]} eventDetails={eventDetails} onResetClick />}
     </div>
 }
