@@ -55,7 +55,6 @@ export const MessageTab: React.FC<any> = (props: any) => {
 
     const trigger = (payload: any) => {
         triggerEvent(payload).then((response: any) => {
-            console.log(response);
             if (response?.response?.status === 200) {
                 MessageService.showToastMessage(`${eventDetails?.name} ${SuccessMessage} ${eventDetails?.targetEndpoint?.name}`);
             } else {

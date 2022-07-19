@@ -20,7 +20,7 @@
         border-radius: 0px;
     }
     &-secondary {
-        background-color: #F3F9FF;
+        background-color: #f3f9ff;
         border: 2px solid $lightPanelBorder;
         .sub-heading {
             color: $lightBlue;
@@ -32,6 +32,8 @@
     margin: 1%;
     padding: 1%;
     height: 92%;
+    max-width: 41em;
+    width: 100%;
 }
 
 .template-viewer {

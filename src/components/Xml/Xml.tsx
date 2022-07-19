@@ -8,5 +8,5 @@ export const Xml: React.FC<any> = (props: XMLViewerProps) => {
         "attributeValueColor": "#000FF"
     }
 
-    return <> <XMLViewer collapsible ={true} xml={xml} theme={customTheme} /></>
+    return <> <XMLViewer overflowBreak={true} collapsible ={true} xml={xml} theme={customTheme} /></>
 }
