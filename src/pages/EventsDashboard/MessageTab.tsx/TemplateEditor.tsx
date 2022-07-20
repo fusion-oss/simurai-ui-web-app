@@ -47,7 +47,7 @@ export const TemplateEditor: React.FC<any> = forwardRef((props: any, ref: any) =
     }, [payload]);
 
     const onFieldEdited = (event: any) => {
-        tempMap.set(event.target.id, event.target.value);
+        tempMap.set(event.target.id, event.target.value?.replaceAll("\"",""));
         setDynamicFieldsData(tempMap);
         setEditedPayload(getEditedPayload(payload, tempMap));
     }

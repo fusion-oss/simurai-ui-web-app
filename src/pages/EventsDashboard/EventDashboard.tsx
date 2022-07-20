@@ -1,8 +1,8 @@
 import { AxiosError } from "axios";
 import React, { useState, useEffect, useRef } from "react"
-import { fetchEvents, triggerEvent } from "../../services/EventDashboard";
+import { fetchEvents } from "../../services/EventDashboard";
 import { Tab } from "../TabConfig";
-import { _events } from "./data";
+// import { _events } from "./data";
 import './eventdashboard.scss';
 import { EventFilter } from "./EventFIlter";
 import { TabNavigation } from "./TabNavigation/TabNavigation";
@@ -17,8 +17,8 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
 
     useEffect(() => {
         fetchEvents().then((response: any) => {
-            setEventData(_events);
-            setCategories(getUniqueCategoriesFromEvents(_events))
+            setEventData(response);
+            setCategories(getUniqueCategoriesFromEvents(response))
         }).catch((error: AxiosError) => console.error(error));
     }, []);
 
