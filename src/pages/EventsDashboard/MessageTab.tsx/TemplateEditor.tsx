@@ -82,7 +82,7 @@ export const TemplateEditor: React.FC<any> = forwardRef((props: any, ref: any) =
 
     return <div className="template">
         <div className="heading">{title}</div>
-        <div className="flex">
+        <div className="flex panel-wrapper">
             <div className="panel panel-primary">
                 <div className="sub-panel">
                     <div className="sub-heading">Template</div>
