@@ -38,7 +38,7 @@ export const _events = [
         "category": "Automated Dispense",
         "source": "Walmart",
         "headerTemplate": "{\"Key1\":\"${HEADER.Key1}\",\"Key2\":\"${HEADER.Key2}\"}",
-        "bodyTemplate": "{\"dispenseTerminalId\":\"${BODY.terminalId}\",\"doorId\":\"${BODY.doorId}\",\"motion\":\"${BODY.motion}\"}",
+        "bodyTemplate": "{\"batchId\":${BODY.batchId},\"dispenseTerminalId\":\"${BODY.terminalId}\",\"doorId\":\"${BODY.doorId}\",\"containsReturns\":${BODY.containsReturns},\"temperatureZonesForReturns\":[\"${BODY.temperatureZone1}\",\"${BODY.temperatureZone2}\"],\"containers\":[{\"containerId\":\"${BODY.containerId1}\",\"temperatureZone\":\"${BODY.temperatureZone1}\"},{\"containerId\":\"${BODY.containerId2}\",\"temperatureZone\":\"${BODY.temperatureZone2}\"}]}",
         "errorQueue": "alert-stage-errors",
         "usage": "Control the motion of the door",
         "targetEndpoint": {
@@ -53,7 +53,7 @@ export const _events = [
         "format": "JSON",
         "category": "Inventory",
         "source": null,
-        "headerTemplate": "{\"Key1\":\"${HEADER.header1}\"}",
+        "headerTemplate": "{\"Key1\":\"{HEADER.header1}\"}",
         "bodyTemplate": "{\"dispenseTerminalId\":\"${BODY.terminalId}\",\"containers\":[\"${BODY.containerId1}\",\"${BODY.containerId2}\"]}",
         "errorQueue": "alert-stage-errors",
         "usage": "Request customer order totes to be delivered to a terminal for either automated or manual dispense",
@@ -66,7 +66,7 @@ export const _events = [
     {
         "name": "EXTRACTION_REQUEST",
         "alias": "EXTRACTION_REQUEST_V3",
-        "format": "sass",
+        "format": "xml",
         "source": null,
         "category": "Inventory",
         "errorQueue": "alert-stage-errors",

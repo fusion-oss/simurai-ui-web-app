@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import React, { useState, useEffect, useRef } from "react"
 import { fetchEvents } from "../../services/EventDashboard";
 import { Tab } from "../TabConfig";
-// import { _events } from "./data";
+import { _events } from "./data";
 import './eventdashboard.scss';
 import { EventFilter } from "./EventFIlter";
 import { TabNavigation } from "./TabNavigation/TabNavigation";
@@ -16,10 +16,10 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
     const [eventDetails, setEventDetails] = useState<any>();
 
     useEffect(() => {
-        fetchEvents().then((response: any) => {
-            setEventData(response);
-            setCategories(getUniqueCategoriesFromEvents(response))
-        }).catch((error: AxiosError) => console.error(error));
+        // fetchEvents().then((response: any) => {
+            setEventData(_events);
+            setCategories(getUniqueCategoriesFromEvents(_events))
+        // }).catch((error: AxiosError) => console.error(error));
     }, []);
 
     useEffect(() => {
@@ -49,7 +49,7 @@ export const EventDashboard: React.FC<any> = (): JSX.Element => {
     }
 
     return <div className="event-dashboard-container">
-        <h3>Events</h3>
+        <div className="heading">Events</div>
         <EventFilter
             onEventChange={onEventChange}
             onEventCategoryChange={onEventCategoryChange}
