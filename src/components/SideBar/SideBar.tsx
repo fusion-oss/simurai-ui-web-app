@@ -3,20 +3,30 @@ import "./sidebar.scss";
 import Logo from "../../assets/svgs/logo.svg";
 import LogoSM from "../../assets/svgs/logo-sm.svg";
 import {
-  faCalendarDays,
-  faGear,
-  faCircleQuestion,
-  faAddressBook,
   faCaretRight,
   faCaretLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Navigationconfig, NavigationconfigType } from "./NavigationConfig";
 
 const SideBar = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
 
-  function toggleSideBar() {
+  const toggleSideBar = () => {
     setIsOpen(!isOpen);
+  }
+
+  const mapNavigationMenus: React.FC<any> = (config: NavigationconfigType[]) => {
+    return <ul className="nav-link">
+      {config.map((item, index) => <li className={index === 0 ? "active" : ""}>
+        <a href={item.route}>
+          <span className="icon">
+            <FontAwesomeIcon icon={item.icon} />
+          </span>
+          <span className="item">{item.name}</span>
+        </a>
+      </li>)}
+    </ul>
   }
 
   return (
@@ -31,41 +41,7 @@ const SideBar = (): JSX.Element => {
           <FontAwesomeIcon icon={faCaretLeft} />
         </div>
       </div>
-
-      <ul className="nav-link">
-        <li className="active">
-          <a href="/events">
-            <span className="icon">
-              <FontAwesomeIcon icon={faCalendarDays} />
-            </span>
-            <span className="item">Events</span>
-          </a>
-        </li>
-        <li>
-          <a href="/setting">
-            <span className="icon">
-              <FontAwesomeIcon icon={faGear} />
-            </span>
-            <span className="item">Setting</span>
-          </a>
-        </li>
-        <li>
-          <a href="/contact">
-            <span className="icon">
-              <FontAwesomeIcon icon={faAddressBook} />
-            </span>
-            <span className="item">Contact</span>
-          </a>
-        </li>
-        <li>
-          <a href="/help">
-            <span className="icon">
-              <FontAwesomeIcon icon={faCircleQuestion} />
-            </span>
-            <span className="item">Help</span>
-          </a>
-        </li>
-      </ul>
+      {mapNavigationMenus(Navigationconfig)}
     </div>
   );
 };
