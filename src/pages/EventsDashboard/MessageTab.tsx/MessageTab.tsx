@@ -69,9 +69,45 @@ export const MessageTab: React.FC<any> = (props: any) => {
         })
     }
 
-    return <div className="template-container">
-        <TemplateEditor title={"Header"} payload={eventDetails?.headerTemplate} format={eventDetails?.format} payloadType={PayloadType.Header} ref={headerRef} />
-        <TemplateEditor title={"Payload"} payload={eventDetails?.bodyTemplate} format={eventDetails?.format} payloadType={PayloadType.Body} ref={bodyRef} />
+    const transformData = (data: string) => {
+        if (data) {
+            const arr = data?.split("");
+            let flag = 0, startIndex = 0;
+
+            for (let i = 0, j = i + 1; i < arr?.length - 2; i++, j++) {
+                if (flag === 0) {
+                    if (arr[i] === '$' && arr[j] === '{' && arr[i - 1] !== "\"" && flag === 0) {
+                        startIndex = i;
+                        arr?.splice(startIndex, 0, "\"");
+                        flag = 1;
+                    }
+                } else {
+                    if (arr[i] === "}") {
+                        flag = 0;
+                        arr?.splice(i + 1, 0, "\"");
+                        startIndex = 0;
+                    }
+                }
+            }
+            return arr?.join("");
+        }
+    }
+
+    const prepareValidJSONFromPayload = (data: string, format: TemplateType | any) => {
+        if (data) {
+            if (format?.toLowerCase() === TemplateType.JSON) {
+                return transformData(data);
+            }
+            return data;
+        }
+        return null;
+    }
+
+
+    return <div> <div className="template-container">
+        <TemplateEditor title={"Header"} payload={prepareValidJSONFromPayload(eventDetails?.headerTemplate, eventDetails?.format)} format={eventDetails?.format} payloadType={PayloadType.Header} ref={headerRef} />
+        <TemplateEditor title={"Payload"} payload={prepareValidJSONFromPayload(eventDetails?.bodyTemplate, eventDetails?.format)} format={eventDetails?.format} payloadType={PayloadType.Body} ref={bodyRef} />
+    </div>
         <div className="btn-container">
             <Button id="reset" variant={ButtonVariant.Secondary} onClick={onResetClick}>Reset</Button>
             <Button id="send" variant={ButtonVariant.Primary} onClick={onSendClick}>Send</Button>
