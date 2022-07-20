@@ -1,7 +1,10 @@
 @import "../../assets//scss/constants/colors.scss";
 .event-dashboard-container {
   flex: 1;
-  padding: 1% 5%;
+  padding: 0.5% 5%;
+  .heading{
+    font-size: 1.3rem;
+  }
 
   .event-dropdown {
     display: grid;
