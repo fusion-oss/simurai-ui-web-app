@@ -9,7 +9,7 @@ export const DynamicFields: React.FC<any> = (props: any) => {
     }
 
     return <div className="field-container scroller">
-        {placeholderMap?.size && Array.from(placeholderMap?.entries())?.map((item: any) => {
+        {placeholderMap?.size ? Array.from(placeholderMap?.entries())?.map((item: any) => {
             const [key, value] = item;
             return <Input customClass="dynamic-input"
                 value={value}
@@ -21,6 +21,6 @@ export const DynamicFields: React.FC<any> = (props: any) => {
                 autoComplete="off"
                 onClear={(e) => onClear(e, key)}
             />
-        })}
+        }) : null}
     </div >
 }

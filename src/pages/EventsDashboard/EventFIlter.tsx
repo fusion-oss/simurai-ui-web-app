@@ -1,4 +1,5 @@
 import { Dropdown } from "../../components/Dropdown/Dropdown";
+import { Loader } from "../../components/Loader/Loader";
 import './eventdashboard.scss';
 export interface EventFilter {
     onEventChange: (data: string) => void;
@@ -11,8 +12,8 @@ export interface EventFilter {
 export const EventFilter = (props: EventFilter) => {
     const { onEventChange, onEventCategoryChange, categories, events, selectedCategory, selectedEvent } = props;
 
-    return <div className="event-dropdown">
+    return categories?.length ? <div className="event-dropdown">
         <Dropdown placeholder="Select Event Category" value={selectedCategory} options={categories} onChange={onEventCategoryChange} id={"category"} />
         <Dropdown disabled={!selectedCategory} placeholder="Select Event" value={selectedEvent} options={events} onChange={onEventChange} id={"event"} />
-    </div>
+    </div> : <Loader />
 }

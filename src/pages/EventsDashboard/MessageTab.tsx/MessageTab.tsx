@@ -65,8 +65,7 @@ export const MessageTab: React.FC<any> = (props: any) => {
                 MessageService.showToastMessage(`${eventDetails?.name} ${FailMessage} ${eventDetails?.targetEndpoint?.name}`);
             }
         }).catch(e => {
-            console.log(e);
-
+            console.error(e);
         })
     }
 
