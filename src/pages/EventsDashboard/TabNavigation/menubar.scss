@@ -1,0 +1,31 @@
+@import "../../../assets/scss/constants/mixins.scss";
+@import "../../../assets/scss/constants/colors.scss";
+.menubar {
+    @include alignElement(flex, left, center);
+    width: 100%;
+    border-bottom: 2px solid $darkBlue;
+    .menu {
+        background-color: #ffffff;
+        padding: 0.5% 2%;
+        color: #393939;
+        border: 0.1 solid #0a36ff;
+        border-radius: 2%;
+        margin: 1px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        transition: 0.1s;
+        min-width: 7%;
+    }
+
+    :hover {
+        background-color: rgba(253, 253, 253, 0.5);
+    }
+
+    .active {
+        background-color: $lightBlue;
+        color: $white;
+    }
+}

@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ErrorBoundary from "../utilities/Errorboundary/ErrorBoundary";
 import { RouteConfig, routes } from "./ComponentMapping";
 
 export interface ApprouteProps {
@@ -8,7 +9,7 @@ export interface ApprouteProps {
 
 export const AppRoute = (props: ApprouteProps) => {
     const routeComponents = routes.map((route) => {
-        return <Route path={route.path} element={<route.component />} ></Route>
+        return <Route path={route.path} element={<ErrorBoundary><route.component /></ErrorBoundary>} ></Route>
     })
 
     return <>
